@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>JavaScript Tutorials</title>
+</head>
+
+<body onload="startGame();">
+
+<style>
+	table {
+	border-collapse: collapse;
+	}
+	
+	#gameTable td {
+	font-size: 45px;
+	height: 100px;
+	width: 100px;
+	}
+	
+	.center {
+	text-align: center;
+	}
+	
+	.marginauto {margin: auto;}
+	
+	.square {
+	font-size: 18px;
+	text-align: center;
+	}
+	
+	button{
+	margin: auto;
+	display: block;
+	}
+</style>
+
+
+
+<h1 class="center">Tic - Tac - Toe</h1>
+
+<table id="gameTable" class="marginauto center">
+	<tr>
+		<td id="c1" class="square" onclick="nextMove(this);" style="border-right: 3px solid #000; border-bottom: 3px solid #000; border-spacing: 0px;"></td>
+		<td id="c2" class="square" onclick="nextMove(this);" style="border-right: 3px solid #000; border-bottom: 3px solid #000; border-spacing: 0px;"></td>
+		<td id="c3" class="square" onclick="nextMove(this);" style="border-bottom: 3px solid #000; border-spacing: 0px;"></td>
+	</tr>	
+	<tr>
+		<td id="c4" class="square" onclick="nextMove(this);" style="border-right: 3px solid #000; border-bottom: 3px solid #000; border-spacing: 0px;"></td>
+		<td id="c5" class="square" onclick="nextMove(this);" style="border-right: 3px solid #000; border-bottom: 3px solid #000; border-spacing: 0px;"></td>
+		<td id="c6" class="square" onclick="nextMove(this);" style="border-bottom: 3px solid #000"></td>
+	</tr>	
+	<tr>
+		<td id="c7" class="square" onclick="nextMove(this);" style="border-right: 3px solid #000;"></td>
+		<td id="c8" class="square" onclick="nextMove(this);" style="border-right: 3px solid #000;"></td>
+		<td id="c9" class="square" onclick="nextMove(this);"></td>
+	</tr>
+</table>
+
+<h2 id="gameStatus" class="center">It is X's turn!</h2>
+
+<button onclick="startGame();">Start Over</button>
+
+<script>
+
+function startGame()
+{
+	for (var i = 1; i <= 9; i = i + 1)
+	{
+	reset(i);
+	}
+
+	document.turn = "X";
+	if (Math.random() < 0.5) {
+		document.turn = "O";
+	}
+	document.winner = null;
+	setMessage(document.turn + " gets to start.");
+}
+
+function setMessage(msg)
+{
+	document.getElementById("gameStatus").innerHTML = msg;
+}
+
+function nextMove(square)
+{
+	if (document.winner != null) {
+		setMessage(document.winner + " already won the game.")
+	}
+	else if (square.innerHTML == "")
+	{
+	square.innerHTML = document.turn;
+	switchTurn();
+	}
+	else
+	{
+	setMessage("That square is already in use.");
+	}
+}
+
+function switchTurn()
+{
+	if (checkForWin(document.turn))
+	{
+	setMessage("Congratulations, " + document.turn + "! You win!");
+	document.winner = document.turn;
+	}
+	else if (document.turn == "X")
+	{
+		document.turn = "O";
+		setMessage("It's " + document.turn + "'s turn.");
+	}
+	else
+	{
+		document.turn = "X";
+		setMessage("It's " + document.turn + "'s turn.");
+	}
+	
+	
+}
+
+function checkForWin(move) 
+{
+	var result = false;
+	if (checkRow(1, 2, 3, move) || checkRow(4, 5, 6, move) || checkRow(7, 8, 9, move) || checkRow(1, 4, 7, move) || checkRow(2, 5, 8, move) || checkRow(3, 6, 9, move) || checkRow(1, 5, 9, move) || checkRow(3, 5, 7, move))
+	{
+		result = true;
+	}
+	return result;
+}
+
+function checkRow(a, b, c, move)
+{
+	var result = false;
+	if (getBox(a) == move && getBox(b) == move && getBox(c) == move)
+	{
+		result = true;
+	}
+	return result;
+}
+
+function getBox(number) 
+{
+	return document.getElementById("c" + number).innerHTML;
+}
+
+function reset(number)
+{
+	document.getElementById("c" + number).innerHTML = "";
+}
+
+</script>
+
+
+</body>
+</html>
